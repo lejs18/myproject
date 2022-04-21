@@ -5,8 +5,6 @@
 <a href="/myproject/shop/product/list.do">상품목록</a> | 
 <a href="/myproject/shop/cart/list.do">장바구니</a> | 
 <a href="/myproject/board/list.do">게시판</a> |
-<a href="/myproject/board/list.do">게시판</a> |
-<a href="/myproject/board/list.do">게시판</a> |
 
 
 
