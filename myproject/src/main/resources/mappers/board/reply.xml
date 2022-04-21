@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+
+<update id="update">
+	update reply set reply_text=#{reply_text} where idx=#{idx}
+</update>
+
+<delete id="delete">
+	delete from reply where idx=#{idx}
+</delete>
+
+<select id="detail" resultType="com.example.myproject.model.board.ReplyDTO">
+	select * from reply where idx=#{idx} 
+</select>
+
+<select id="count" resultType="int">
+	select count(*) from reply where board_idx=#{board_idx}
+</select>
+
+<insert id="insert">
+	insert into reply (idx,board_idx,reply_text,replyer) values 
+	(reply_seq.nextval, #{board_idx}, #{reply_text}, #{replyer} )
+</insert>
+
+<select id="list" resultType="com.example.myproject.model.board.ReplyDTO">
+	<include refid="paging_header" />
+	select idx,board_idx,reply_text,replyer,name,r.regdate,
+	(select writer from board where idx=r.board_idx) writer
+	from reply r, member m
+	where r.replyer=m.userid and board_idx=#{board_idx}
+	order by idx desc
+	<include refid="paging_footer" />
+</select>
+
+<sql id="paging_header">
+	select *
+	from (
+		select rownum as rn, A.*
+		from (
+</sql>
+
+<sql id="paging_footer">
+		) A 
+	) where rn between #{start} and #{end}
+</sql>
+
+</mapper>
+
+
+
+
+
+
+
+
+

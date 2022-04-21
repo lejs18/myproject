@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="list" resultType="com.example.myproject.model.board.BoardDTO">
+		<include refid="paging_header" />
+		select rownum,idx,title,contents,b.regdate,hit,name,
+		(select count(*) from reply where board_idx=b.idx) cnt
+		from board b, member m
+		<include refid="search" />
+		order by idx desc, regdate desc 
+		<include refid="paging_footer" />
+	</select>
+	
+	<insert id="insert">
+		insert into board (idx,title,contents,writer) values 
+		(board_seq.nextval, #{title}, #{contents}, #{writer} )
+	</insert>
+	
+	<select id="get_current_idx" resultType="int">
+		select max(idx) from board order by idx desc
+	</select>
+	
+	<select id="detail" resultType="com.example.myproject.model.board.BoardDTO">
+		select idx,title,contents,b.regdate,hit,name,writer
+		from board b, member m
+		where b.writer=m.userid and idx=#{idx}
+	</select>
+	
+	<update id="increase_hit">
+		update board set hit=hit+1 where idx=#{idx}
+	</update>	
+	
+	<update id="update">
+		update board set title=#{title}, contents=#{contents} where idx=#{idx}
+	</update>
+	
+	<delete id="delete">
+		delete from board where idx=#{idx}
+	</delete>	
+	
+	<select id="count" resultType="int">
+		select count(*) from board b, member m
+		<include refid="search" />
+	</select>
+	
+	
+	<select id="list_attach" resultType="String">
+		select file_name from attach where board_idx=#{board_idx} order by regdate
+	</select>
+	
+	<insert id="insert_attach">
+		insert into attach (file_name, board_idx) values 
+		(#{file_name}, board_seq.currval)
+	</insert>
+	
+	<insert id="update_attach">
+		insert into attach (file_name, board_idx) values (#{file_name}, #{idx} )
+	</insert>
+		
+	<delete id="delete_attach">
+		delete from attach where file_name=#{file_name}
+	</delete>
+	
+	<sql id="search">
+		<choose>
+			<when test="search_option == 'all' ">
+				where b.writer=m.userid and (name like '%' || #{keyword} || '%' or contents like '%' || #{keyword} || '%' or title like '%' || #{keyword} || '%' )
+			</when>
+			<otherwise>
+				where b.writer=m.userid and ${search_option} like '%' || #{keyword} || '%'
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<sql id="paging_header">
+		select *
+		from (
+			select rownum as rn, A.*
+			from (
+	</sql>
+	
+	<sql id="paging_footer">
+			) A 
+		) where rn between #{start} and #{end}
+	</sql>
+</mapper>
