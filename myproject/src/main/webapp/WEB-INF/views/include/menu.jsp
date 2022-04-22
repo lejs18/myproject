@@ -12,7 +12,7 @@ a{
 	width:100%;
 	height:96px;
 	margin: 0px auto;
-	background-color:black;
+	
 }
 .menu{
 	display:flex;
@@ -23,11 +23,11 @@ a{
 	margin:0px auto;
 }
 .home{
-	width:28px;
-	height:28px;
+	width:168px;
+	height:38px;
 }
 .search{
-	width:432px;
+	width:420px;
 	height:48px;
 }
 .logotxt{
@@ -56,18 +56,18 @@ a{
 </style>
 <div class="header">
 	<a href="/myproject" >
-		<img class="home" src="/myproject/images/house2.jpg">
+		<img class="home" src="/myproject/images/houselogo.jpg">
 	</a>
-	<div class="logotxt">
-	</div>
+<!--  	<div class="logotxt">
+	</div>-->
 	<div class="center">
 		<a href="/myproject/shop/product/list.do">
-			<img class="search" src="/myproject/images/search.jpg">
+			<img class="search" src="/myproject/images/search2.jpg">
 		</a>
 	</div>
 	<div class="left">
 		<a href="/myproject/shop/cart/list.do">
-			<img class="cart" src="/myproject/images/cart.jpg">
+			<img class="cart" src="/myproject/images/cart2.jpg">
 		</a>
 	</div>
 </div>
@@ -101,11 +101,3 @@ a{
 </div>
 </div>
 <hr>
-
-
-
-
-
-
-
-
